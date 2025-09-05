@@ -224,7 +224,7 @@ app.post('/api/folders', authenticateToken, async (req, res) => {
       views: folder.views,
       downloads: folder.downloads,
       createdAt: folder.createdAt,
-      shareLink: `https://ezpz-share.netlify.app/share/${folder.shareId}`
+      shareLink: `${process.env.FRONTEND_URL}/share/${folder.shareId}`
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -245,7 +245,7 @@ app.get('/api/folders', authenticateToken, async (req, res) => {
       views: folder.views,
       downloads: folder.downloads,
       createdAt: folder.createdAt,
-      shareLink: `https://ezpz-share.netlify.app/share/${folder.shareId}`
+      shareLink: `${process.env.FRONTEND_URL}/share/${folder.shareId}`
     }));
     
     res.json(foldersWithLinks);
@@ -482,3 +482,4 @@ app.listen(PORT, () => {
   console.log(`📊 MongoDB connected`);
   console.log(`☁️ AWS S3 configured for file storage`);
 });
+

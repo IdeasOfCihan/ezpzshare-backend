@@ -106,6 +106,20 @@ const generateShareId = () => {
 
 // ROUTES
 
+// Debug endpoint to check environment variables
+app.get('/api/debug-env', (req, res) => {
+  res.json({ 
+    FRONTEND_URL: process.env.FRONTEND_URL,
+    FRONTEND_URL_TYPE: typeof process.env.FRONTEND_URL,
+    FRONTEND_URL_LENGTH: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.length : 0,
+    NODE_ENV: process.env.NODE_ENV,
+    PORT: process.env.PORT,
+    has_JWT_SECRET: !!process.env.JWT_SECRET,
+    has_MONGODB_URI: !!process.env.MONGODB_URI,
+    has_AWS_KEYS: !!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY)
+  });
+});
+
 // Auth Routes
 app.post('/api/auth/register', async (req, res) => {
   try {
@@ -210,7 +224,7 @@ app.post('/api/folders', authenticateToken, async (req, res) => {
       views: folder.views,
       downloads: folder.downloads,
       createdAt: folder.createdAt,
-      shareLink: `https://mellow-figolla-559bc7.netlify.app/share/${folder.shareId}`
+      shareLink: `https://ezpz-share.netlify.app/share/${folder.shareId}`
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -231,7 +245,7 @@ app.get('/api/folders', authenticateToken, async (req, res) => {
       views: folder.views,
       downloads: folder.downloads,
       createdAt: folder.createdAt,
-      shareLink: `https://mellow-figolla-559bc7.netlify.app/share/${folder.shareId}`
+      shareLink: `https://ezpz-share.netlify.app/share/${folder.shareId}`
     }));
     
     res.json(foldersWithLinks);
@@ -468,4 +482,3 @@ app.listen(PORT, () => {
   console.log(`📊 MongoDB connected`);
   console.log(`☁️ AWS S3 configured for file storage`);
 });
-
